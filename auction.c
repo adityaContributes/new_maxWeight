@@ -197,9 +197,9 @@ void printIS()
 	{
 		for (j = 0; j < numPort; j++)
 		{
-			printf("toDequeue[%d][%d] = %d\t",i,j,toDequeue[i][j]);
+			fprintf(log_fp,"toDequeue[%d][%d] = %d\t",i,j,toDequeue[i][j]);
 		}
-		printf("\n");
+		fprintf(log_fp,"\n");
 	}
 }
 void maxWeight()
@@ -216,11 +216,7 @@ void maxWeight()
 		findPrice();
 		step4();
 		numFilled = sComplete();
-		//printf("sComplete = %d\n",numFilled);
-		//printIS();
 		i++;
 	}
-	//printf("sComplete = %d\n",numFilled);
 	printIS();
-	
 }	

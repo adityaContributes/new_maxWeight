@@ -1,5 +1,6 @@
 #define LOADSTEP 0.05
 #define numPort 3 
+#include <stdio.h>
 char dbgMsg[1024];
 int midPoint;
 typedef struct packet
@@ -25,3 +26,4 @@ int P[numPort][numPort];
 int bid[numPort][numPort];
 int w[numPort][numPort];
 int toDequeue[numPort][numPort]; //an element will be 1,if packet from port corresponding to index of this element is to be served
+FILE *log_fp,*wt_fp,*wtN_fp;

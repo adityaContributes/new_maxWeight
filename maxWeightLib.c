@@ -106,9 +106,7 @@ void getWeight(My402List *Q)
 		{
 			//*(w + (i*numPort) + j) = My402ListLength(&Q[i * numPort + j]);	
 			w[i][j] = My402ListLength(&Q[i * numPort + j]);
-			printf("w[%d][%d] = %d \t",i,j,w[i][j]);	
 		}
-		printf("\n");
 	}
 	//printf("Returning from get weight\n");
 }
@@ -227,10 +225,10 @@ void printWeights(int wt_fp,int wtN_fp,int ts)
 	{
 		for ( j = 0; j < numPort; j++)
 		{
-			fprintf((FILE *)wt_fp,"%d\t\t",w[i][j]);
-			fprintf((FILE *)wtN_fp,"%.4g\t\t",(double)w[i][j]/ts);
+			fprintf((FILE *)wt_fp,"%d\t",w[i][j]);
+			fprintf((FILE *)wtN_fp,"%.4g\t",(double)w[i][j]/ts);
 		}
-		fprintf((FILE *)wt_fp,"\n");
-		fprintf((FILE *)wtN_fp,"\n");
 	}
+	fprintf((FILE *)wt_fp,"\n");
+	fprintf((FILE *)wtN_fp,"\n");
 }

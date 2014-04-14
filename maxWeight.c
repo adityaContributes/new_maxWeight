@@ -17,7 +17,6 @@ int main (int argc, char * argv[])
 	int i,j;
 	int dest,pcktArrived;	//destination port of packet arrived
 	int pc[numPort][numPort];	//Packet count in particular queues
-	FILE *dat_fp,*wt_fp,*wtN_fp;
 	int ld;
 	double ldM;
 	int tmpC;
@@ -31,8 +30,6 @@ int main (int argc, char * argv[])
 	My402List Q[numPort * numPort];
 	memset(&Q,0,sizeof(Q));
 	
-	sprintf(dbgMsg,"W00:\tW01:\tW10:\tW11:\n");
-	dbg(dbgMsg);
 	if ( (wt_fp = fopen("wt.dat","w+")) == NULL)
 	{
 		fprintf(stderr,"Cannot open file for writing\n");
@@ -45,6 +42,22 @@ int main (int argc, char * argv[])
 		perror("fopen::");
 		exit(1);
 	}
+	if ( (log_fp = fopen("Simulation.log","w+")) == NULL)
+	{
+		fprintf(stderr,"Cannot open file for writing\n");
+		perror("fopen::");
+		exit(1);
+	}
+	for (i = 0; i < numPort; i++)
+	{
+		for (j = 0; j < numPort; j++)
+		{
+			fprintf(wt_fp,"W[%d][%d]\t",i,j);
+			fprintf(wtN_fp,"W[%d][%d]\t",i,j);
+		}
+	}
+	fprintf(wt_fp,"\n");
+	fprintf(wtN_fp,"\n");
 	srand (time(NULL));
 	
 	InitQueues(&Q);		//Initialise input queues
@@ -59,7 +72,6 @@ int main (int argc, char * argv[])
 		pcktArrived = -1;
 		ld = (int)load[i];
 		ldM = load[i] - ld;
-		//printf("Input:%d load[%d]:%g ld:%d ldM:%g\n",i,i,load[i],ld,ldM);	
 		tmpC = 0;
 		while (tmpC < ld)
 		{
@@ -84,7 +96,7 @@ int main (int argc, char * argv[])
 					exit(1);
 				}
 				pc[i][pkt->dest]++;	
-				printf("TimeSlot:%d\tp%d\ti/p Port:%d\to/p Port:%d\n",timeSlot,packet_c,i,dest);
+				fprintf(log_fp,"TimeSlot:%d\tp%d\ti/p Port:%d\to/p Port:%d\n",timeSlot,packet_c,i,dest);
 			}
 		tmpC++;
 		}
@@ -107,7 +119,7 @@ int main (int argc, char * argv[])
 			}
 			pc[i][pkt->dest]++;	
 			//printf("Packet Arrived Destined to %d\n",dest);
-			printf("TimeSlot:%d\tp%d\ti/p Port:%d\to/p Port:%d\n",timeSlot,packet_c,i,dest);
+			fprintf(log_fp,"TimeSlot:%d\tp%d\ti/p Port:%d\to/p Port:%d\n",timeSlot,packet_c,i,dest);
 		}
 		
 	}
@@ -130,7 +142,7 @@ int main (int argc, char * argv[])
 					My402ListUnlink(&Q[i * numPort + j],f);
 					srvdPckt->timeLeft = timeSlot;
 					finPacket_c++;
-					printf("TimeSlot:%d\tp%d\tfrom port:%d\tto port:%d\tserviced\n",timeSlot,srvdPckt->pkt_num,i,j);
+					fprintf(log_fp,"TimeSlot:%d\tp%d\tfrom port:%d\tto port:%d\tserviced\n",timeSlot,srvdPckt->pkt_num,i,j);
 					free(srvdPckt);
 				}
 				else
@@ -143,7 +155,7 @@ int main (int argc, char * argv[])
 	}
 	getWeight(&Q);
 	printWeights(wt_fp,wtN_fp,timeSlot);
-	printf("TimeSlot:%d Ends\n",timeSlot);
+	fprintf(log_fp,"TimeSlot:%d ####Ends####\n",timeSlot);
 	}
 	return(0);
 }
