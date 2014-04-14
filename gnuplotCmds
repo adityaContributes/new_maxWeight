@@ -1,0 +1,3 @@
+plot 'tmp1.dat' u 1 t 'w00' w lines, 'tmp1.dat' u 2 t 'w01' w lines, 'tmp1.dat' u 3 t 'w10' w lines,'tmp1.dat' u 4 t 'w11' w lines
+plot 'wt.dat' u 1 t 'w00' w lines, 'wt.dat' u 2 t 'w01' w lines, 'wt.dat' u 3 t 'w10' w lines,'wt.dat' u 4 t 'w11' w lines
+plot 'wtNorm.dat' u 1 t 'w00' w lines, 'wtNorm.dat' u 2 t 'w01' w lines, 'wtNorm.dat' u 3 t 'w10' w lines,'wtNorm.dat' u 4 t 'w11' w lines
